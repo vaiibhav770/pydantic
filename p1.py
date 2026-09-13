@@ -1,15 +1,26 @@
 from pydantic import BaseModel
+from typing import List, Dict
 
 class patient(BaseModel):
 
     name:str
     age:int
+    weight:float
+    married:bool
+    allergies:List[str]
+    contacts_details:Dict[str,str]
 
 def insert_patient_info(patient: patient):
     print(patient.name)
     print(patient.age)
+    print(patient.weight)
+    print(patient.married)
+    print(patient.allergies)
+    print(patient.contacts_details)
+    print('updated')
 
-patient_info = {'name':'dk','age':'22'}
+
+patient_info = {'name':'dk','age':'22','weight':'67.0','married':'true','allergies':['pollen','sand','gass'],'contacts_details':{'email':'abc@gmail.com','phone_no':'0987654321'}}
 
 patient1 = patient(**patient_info)
 
