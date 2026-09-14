@@ -1,15 +1,15 @@
-from pydantic import BaseModel,EmailStr,AnyUrl
+from pydantic import BaseModel,EmailStr,AnyUrl,Field
 from typing import List, Dict, Optional
 
 class patient(BaseModel):
 
-    name:str
-    age:int
+    name:str=Field(max_length=50)
+    age:int=Field(gt=0,lt=120)
     Email:EmailStr
-    weight:float
+    weight:float=Field(gt=0)
     linkdin_url:AnyUrl
     married:Optional[bool]=False
-    allergies:Optional[List[str]]=None
+    allergies:Optional[List[str]]=Field(default=None,max_length=5)
     contacts_details:Dict[str,str]
 
 def insert_patient_info(patient: patient):
