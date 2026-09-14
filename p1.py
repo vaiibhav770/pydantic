@@ -1,14 +1,14 @@
 from pydantic import BaseModel,EmailStr,AnyUrl,Field
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional,Annotated
 
 class patient(BaseModel):
 
-    name:str=Field(max_length=50)
+    name:Annotated[str,Field(max_length=50, title='Name of the patient',description='Give the name of the patient in less than 50 words',examples=['nitish','amit'])]
     age:int=Field(gt=0,lt=120)
     Email:EmailStr
     weight:float=Field(gt=0)
     linkdin_url:AnyUrl
-    married:Optional[bool]=False
+    married:Annotated[bool,Field(default=None,description='is the patient married or not?')]
     allergies:Optional[List[str]]=Field(default=None,max_length=5)
     contacts_details:Dict[str,str]
 
