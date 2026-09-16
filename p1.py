@@ -24,6 +24,11 @@ class patient(BaseModel):
 
         return value
 
+    @field_validator('name')
+    @classmethod
+    def transform_name(cls,value):
+        return value.upper()
+
 def insert_patient_info(patient: patient):
     print(patient.name)
     print(patient.Email)
@@ -36,7 +41,7 @@ def insert_patient_info(patient: patient):
     print('updated')
 
 
-patient_info = {'name':'dk','Email':'abc@hdfc.com','age':'22','weight':67.0,'linkdin_url':'https://linkdin.com/123','married':'true','contacts_details':{'phone_no':'0987654321'}}
+patient_info = {'name':'aman','Email':'abc@hdfc.com','age':'22','weight':67.0,'linkdin_url':'https://linkdin.com/123','married':'true','contacts_details':{'phone_no':'0987654321'}}
 
 patient1 = patient(**patient_info)
 
