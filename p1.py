@@ -1,4 +1,4 @@
-from pydantic import BaseModel,EmailStr,AnyUrl,Field
+from pydantic import BaseModel,EmailStr,AnyUrl,Field,field_validator
 from typing import List, Dict, Optional,Annotated
 
 class patient(BaseModel):
@@ -12,6 +12,18 @@ class patient(BaseModel):
     allergies:Optional[List[str]]=Field(default=None,max_length=5)
     contacts_details:Dict[str,str]
 
+    @field_validator('Email')
+    @classmethod
+    def email_validator(cls,value):
+
+        valid_domains=['hdfc.com','icici.com']
+        domain_name=value.split('@')[-1]
+
+        if domain_name not in valid_domains:
+            raise ValueError('not a valid domain')
+
+        return value
+
 def insert_patient_info(patient: patient):
     print(patient.name)
     print(patient.Email)
@@ -24,7 +36,7 @@ def insert_patient_info(patient: patient):
     print('updated')
 
 
-patient_info = {'name':'dk','Email':'abc@gmail.com','age':'22','weight':67.0,'linkdin_url':'https://linkdin.com/123','married':'true','contacts_details':{'phone_no':'0987654321'}}
+patient_info = {'name':'dk','Email':'abc@hdfc.com','age':'22','weight':67.0,'linkdin_url':'https://linkdin.com/123','married':'true','contacts_details':{'phone_no':'0987654321'}}
 
 patient1 = patient(**patient_info)
 
