@@ -1,4 +1,4 @@
-from pydantic import BaseModel,EmailStr,AnyUrl,Field,field_validator
+from pydantic import BaseModel,EmailStr,AnyUrl,Field,field_validator,model_validator
 from typing import List, Dict, Optional,Annotated
 
 class patient(BaseModel):
@@ -11,6 +11,12 @@ class patient(BaseModel):
     married:Annotated[bool,Field(default=None,description='is the patient married or not?')]
     allergies:Optional[List[str]]=Field(default=None,max_length=5)
     contacts_details:Dict[str,str]
+  
+
+    @model_validator(mode='after')
+    def validate_emergency_contact(cls,model):
+        if model.age > 60 and 'emergency' not in model.contacts_details:
+            raise ValueError('patient above 60 must have emergency no')
 
     @field_validator('Email')
     @classmethod
@@ -50,7 +56,7 @@ def insert_patient_info(patient: patient):
     print('updated')
 
 
-patient_info = {'name':'aman','Email':'abc@hdfc.com','age':'22','weight':67.0,'linkdin_url':'https://linkdin.com/123','married':'true','contacts_details':{'phone_no':'0987654321'}}
+patient_info = {'name':'aman','Email':'abc@hdfc.com','age':'70','weight':67.0,'linkdin_url':'https://linkdin.com/123','married':'true','contacts_details':{'phone_no':'0987654321','emergency':'89765'}}
 
 patient1 = patient(**patient_info)
 
