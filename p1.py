@@ -1,4 +1,4 @@
-from pydantic import BaseModel,EmailStr,AnyUrl,Field,field_validator,model_validator
+from pydantic import BaseModel,EmailStr,AnyUrl,Field,field_validator,model_validator,computed_field
 from typing import List, Dict, Optional,Annotated
 
 class patient(BaseModel):
@@ -7,10 +7,17 @@ class patient(BaseModel):
     age:int=Field(gt=0,lt=120)
     Email:EmailStr
     weight:Annotated[float,Field(gt=0,strict=True)]
+    height:int
     linkdin_url:AnyUrl
     married:Annotated[bool,Field(default=None,description='is the patient married or not?')]
     allergies:Optional[List[str]]=Field(default=None,max_length=5)
     contacts_details:Dict[str,str]
+
+    @computed_field
+    @property
+    def calculate_bmi(self)->float:
+        bmi=round(self.weight/(self.height**2),2)
+        return bmi
   
 
     @model_validator(mode='after')
@@ -52,11 +59,12 @@ def insert_patient_info(patient: patient):
     print(patient.linkdin_url)
     print(patient.married)
     print(patient.allergies)
+    print('BMI',patient.calculate_bmi)
     print(patient.contacts_details)
     print('updated')
 
 
-patient_info = {'name':'aman','Email':'abc@hdfc.com','age':'70','weight':67.0,'linkdin_url':'https://linkdin.com/123','married':'true','contacts_details':{'phone_no':'0987654321','emergency':'89765'}}
+patient_info = {'name':'aman','height':'140','Email':'abc@hdfc.com','age':'70','weight':67.0,'linkdin_url':'https://linkdin.com/123','married':'true','contacts_details':{'phone_no':'0987654321','emergency':'89765'}}
 
 patient1 = patient(**patient_info)
 
