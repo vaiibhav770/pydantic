@@ -20,6 +20,11 @@ patient_dict={'name':'str','age':'23','gender':'male','address':address1}
 
 patient1=Patient(**patient_dict)
 
+temp=patient1.model_dump(include=['name','gender'])
+
+print(temp)
+print(type(temp))
+
 print(patient1)
 print(patient1.address.city)
 print(patient1.address.state)
