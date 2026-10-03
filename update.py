@@ -77,6 +77,7 @@ class patientupdate(BaseModel):
 
 
 
+
 def load_data():
 
     with open("patient.json", "r") as f:
