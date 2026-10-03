@@ -189,3 +189,12 @@ def create_patient(patient: Patient):
         "message": "Patient created successfully",
         "patient": patient.model_dump()
     }
+@app.put('/edit/{patient_id}')
+def update_patient(patient_id: str, patient_update):
+
+    data = load_data()
+
+    if patient_id not in data:
+        raise HTTPException(status_code=404, detail='patient not found')
+
+    existing_patient_info = data(patient_id)
