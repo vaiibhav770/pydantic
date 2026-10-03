@@ -202,4 +202,15 @@ def update_patient(patient_id: str, patient_update):
     updated_patient_info= patient_update.model_dump(exclude_unset=True)
 
     for key, value in updated_patient_info.items():
-        existing_patient_info[Key]
+        existing_patient_info[key] = value
+
+        existing_patient_info['id'] = patient_id
+        parient_pydantic_obj = Patient(**existing_patient_info)
+
+        parient_pydantic_obj.model.dump(exclude='id')
+
+    
+
+    data[patient_id] = existing_patient_info
+
+    
