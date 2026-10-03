@@ -1,7 +1,9 @@
 from fastapi import FastAPI, HTTPException, Path, Query
 from pydantic import BaseModel, Field, computed_field
 from typing import Optional, Annotated, Literal
+from fastapi.responses import JSONResponse
 import json
+
 
 app = FastAPI()
 
@@ -213,4 +215,6 @@ def update_patient(patient_id: str, patient_update):
 
     data[patient_id] = existing_patient_info
 
-    
+    save_date=(data)
+
+    return JSONResponse(content= {'message': 'data has been saved'}, status_code=200)
