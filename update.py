@@ -198,3 +198,8 @@ def update_patient(patient_id: str, patient_update):
         raise HTTPException(status_code=404, detail='patient not found')
 
     existing_patient_info = data(patient_id)
+
+    updated_patient_info= patient_update.model_dump(exclude_unset=True)
+
+    for key, value in updated_patient_info.items():
+        existing_patient_info[Key]
