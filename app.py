@@ -5,8 +5,8 @@ from typing import Literal,Annotated
 import pickle
 import pandas as pd
 
-with open("gg.pkl", "rb") as f:
-    given = pickle.load(f)
+with open('model.pkl', 'rb') as f:
+    model = pickle.load(f)
 
 app = FastAPI()
 
@@ -73,6 +73,6 @@ def predict_premium(data: userInput):
         'income_lpa': data.income_lpa
     }])
     
-    prediction = given.predict(input_df)[0]
+    prediction = model.predict(input_df)[0]
 
     return JSONResponse(status_code=200, content={'prediction': prediction})
